@@ -1,13 +1,23 @@
-import { useState } from 'react';
-import { View, ScrollView, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import { View, ScrollView, SafeAreaView, Button, Text } from 'react-native';
 import { Stack, useRouter } from 'expo-router'
-
 import { COLORS, icons, images, SIZES } from "../constants"
 import { Nearbyjobs, Popularjobs, ScreenHeaderBtn, Welcome } from '../components'
-
+import { DescriptorSecretKey, Mnemonic, Blockchain, Wallet, DatabaseConfig, Descriptor } from 'bdk-rn';
+import { WordCount, Network } from 'bdk-rn/lib/lib/enums';
+import BdkRn from 'bdk-rn';
 const Home = () => {
     const router = useRouter();
-
+    const [mnemonic, setMnemonic] = useState('');
+    const getMnemonic = async () => {
+        const { data } = await BdkRn.generateMnemonic({
+            length: 12,
+            network: 'testnet',
+        });
+        console.log(data);
+        setMnemonic(data);
+        setDisplayText(JSON.stringify(data));
+    };
     return (
 
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
@@ -35,6 +45,13 @@ const Home = () => {
                     <Nearbyjobs />
 
                 </View>
+                <Button
+                    title="Generate Mnemonic"
+                    onPress={getMnemonic}
+                />
+                <Text>
+                    {mnemonic == undefined ? "hola" : mnemonic}
+                </Text>
             </ScrollView>
         </SafeAreaView>
     )

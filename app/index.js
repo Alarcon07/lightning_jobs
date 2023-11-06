@@ -8,16 +8,15 @@ import { WordCount, Network } from 'bdk-rn/lib/lib/enums';
 import BdkRn from 'bdk-rn';
 const Home = () => {
     const router = useRouter();
-    const [mnemonic, setMnemonic] = useState('');
-    const getMnemonic = async () => {
-        const { data } = await BdkRn.generateMnemonic({
-            length: 12,
-            network: 'testnet',
-        });
-        console.log(data);
-        setMnemonic(data);
-        setDisplayText(JSON.stringify(data));
-    };
+    // const [mnemonic, setMnemonic] = useState('');
+    // const getMnemonic = async () => {
+    //     const { data } = await BdkRn.generateMnemonic({
+    //         length: 12,
+    //         network: 'testnet',
+    //     });
+    //     setMnemonic(data);
+    //     setDisplayText(JSON.stringify(data));
+    // };
     return (
 
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
@@ -45,13 +44,13 @@ const Home = () => {
                     <Nearbyjobs />
 
                 </View>
-                <Button
+                {/* <Button
                     title="Generate Mnemonic"
                     onPress={getMnemonic}
                 />
                 <Text>
                     {mnemonic == undefined ? "hola" : mnemonic}
-                </Text>
+                </Text> */}
             </ScrollView>
         </SafeAreaView>
     )

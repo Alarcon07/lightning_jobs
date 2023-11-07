@@ -1,14 +1,13 @@
-import { Text, View, SafeAreaView, ScrollView, ActivityIndicator, RefreshControl } from 'react-native'
+import { Text, View, TextInput, SafeAreaView, TouchableOpacity, Image, FlatList, ScrollView, ActivityIndicator, RefreshControl } from 'react-native'
 import { Stack, useRouter, useGlobalSearchParams } from 'expo-router'
 import { useCallback, useState } from 'react'
 
 import { Company, JobAbout, JobFooter, JobTabs, ScreenHeaderBtn, Specifics } from '../../components'
 import { COLORS, icons, SIZES } from '../../constants';
 import useFetch from '../../hook/useFetch'
+import styles from '../../components/home/welcome/welcome.style'
 
-const tabs = ["About", "Qualifications", "Responsibilities"]
-
-const JobDetails = () => {
+const Apply = () => {
 
     const params = useGlobalSearchParams();
     const router = useRouter();
@@ -17,45 +16,12 @@ const JobDetails = () => {
     })
 
     const [refreshing, setRefreshing] = useState(false);
-    const [activeTab, setActiveTab] = useState(tabs[0])
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         refetch();
         setRefreshing(false);
     }, [])
-
-    const handleApplyPress = () => {
-        router.push(`/apply-job/${params.id}`);
-    };
-
-    const displayTabContent = () => {
-        switch (activeTab) {
-            case "Qualifications":
-                return (
-                    <Specifics
-                        title='Qualifications'
-                        points={data[0].job_highlights?.Qualifications ?? ["N/A"]}
-                    />
-                );
-
-            case "About":
-                return (
-                    <JobAbout info={data[0].job_description ?? "No data provided"} />
-                );
-
-            case "Responsibilities":
-                return (
-                    <Specifics
-                        title='Responsibilities'
-                        points={data[0].job_highlights?.Responsibilities ?? ["N/A"]}
-                    />
-                );
-
-            default:
-                return null;
-        }
-    };
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
@@ -81,28 +47,24 @@ const JobDetails = () => {
                     ) : data.length === 0 ? (
                         <Text>No data</Text>
                     ) : (
-                        <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
-                            <Company
-                                companyLogo={data[0].employer_logo}
-                                jobTitle={data[0].job_title}
-                                companyName={data[0].employer_name}
-                                location={data[0].job_country}
 
-                            />
-                            <JobTabs
-                                tabs={tabs}
-                                activeTab={activeTab}
-                                setActiveTab={setActiveTab}
-                            />
-                            {displayTabContent()}
 
+                        <View>
+                            <View style={styles.container}>
+                                <Text style={styles.welcomeMessage}>Fill to apply</Text>
+                            </View>
+                            <View style={styles.searchWrapper}>
+                                <TextInput
+                                    style={styles.searchInput}
+                                    placeholder={`${params.id}`}
+                                />
+                            </View>
                         </View>
                     )}
                 </ScrollView>
-                <JobFooter handleApplyPress={handleApplyPress} />
             </>
         </SafeAreaView >
     )
 }
 
-export default JobDetails
+export default Apply

@@ -15,6 +15,10 @@ import Specifics from "./jobdetails/specifics/Specifics";
 // common
 import NearbyJobCard from "./common/cards/nearby/NearbyJobCard";
 
+
+//Login
+import Login from "./auth/login/Login";
+
 export {
   ScreenHeaderBtn,
   Welcome,
@@ -25,5 +29,6 @@ export {
   JobAbout,
   JobFooter,
   Specifics,
-  NearbyJobCard
+  NearbyJobCard,
+  Login
 };
